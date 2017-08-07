@@ -9,10 +9,6 @@ public class run {
     //    w.visit();
        AddCsdnBlogPV AC = new AddCsdnBlogPV();
         AC.addBlogUrl();
-        int n = 20;
-        while(n > 0){
-            AC.visitBlog();
-            n--;
-        }
+        AC.visitBlog();
     }
 }

@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -18,15 +19,15 @@ public class AddCsdnBlogPV {
     private Set<String> blogUrls = new TreeSet<>();
 
     public void visitBlog() throws IOException {
+        String[] Urls = store();
         int n = 0;
-        while(n < 500) {
-            int idx = (int) (Math.random() * blogUrls.size());
-            Object ary[] = blogUrls.toArray();
-            String blogUrl = ary[idx].toString();
+        while(n < 50 * Urls.length) {
+            int ran = (int) (Math.random()*Urls.length);
+            String blogUrl = Urls[ran];
             String artlUrl = csdnBlogUrl + blogUrl;
             InputStream is = HttpUtil.doGet(artlUrl);
             try {
-                int times = (int) (Math.random()*10000)+50000;
+                int times = (int) (Math.random() * 5000) + 1000;
                 sleep(times);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -35,7 +36,17 @@ public class AddCsdnBlogPV {
                 System.out.println(artlUrl + "访问成功");
             }
             is.close();
+            n++;
         }
+    }
+
+    public String[] store(){
+        Iterator it =  blogUrls.iterator();
+        int size = blogUrls.size();
+        String[] Urls = new String[size];
+        for(int i = 0 ; it.hasNext() ;i++)
+            Urls[i] = (String) it.next();
+        return Urls;
     }
 
     public void addBlogUrl() throws IOException{
