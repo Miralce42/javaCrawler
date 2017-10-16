@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -56,10 +57,16 @@ public class AddCsdnBlogPV {
         is.close();
         Pattern pattern = Pattern.compile(artlUrl);
         Matcher matcher = pattern.matcher(pageStr);//使用正则表达式进行匹配
+        System.out.println("请输入个数:");
+        Scanner scan = new Scanner(System.in);
+        int number= Integer.parseInt(scan.nextLine());
         while(matcher.find()){
             String e = matcher.group(0);
-            System.out.println("成功添加博客地址：" + e);
-            blogUrls.add(e);
+            if(!blogUrls.contains(e)){
+                if(number-- == 0) break;
+                System.out.println("成功添加博客地址：" + e);
+                blogUrls.add(e);
+            }
         }
     }
 }
